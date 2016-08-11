@@ -1,0 +1,90 @@
+<h1>Accounts</h1>
+<table class="table table-hover">
+
+  <%-# Table for store -%>
+
+  <% if @user.admin %>
+    <tr>
+      <th>User</th>
+      <th>Value</th>
+      <th></th>
+      <th></th>
+    </tr>
+    <% @accounts.each do |account| %>
+      <% ptrans = PointsTransaction.find_by(account_id: account.id, approved: false) %>
+      <tr>
+        <td>
+          <strong><%= link_to account.user.username,
+                              user_url(account.user_id) %></strong>
+        </td>
+        <td><%= account.value %></td>
+        <td>
+          <% if ptrans %>
+            <%= link_to "Approve Request",
+                        user_account_points_transaction_path(current_user.id,
+                                                            account.id,
+                                                            ptrans.id),
+                        class: "btn btn-success",
+                        :method => :patch %>
+          <% else %>
+            <%= link_to "Give a point",
+                        user_account_points_transactions_path(account.user.id,
+                                                              account.id),
+                        class: "btn btn-primary",
+                        :method => :post %>
+          <% end %>
+        </td>
+        <td>
+          <%= link_to "View Account",
+                      user_account_path(@user.id, account.id),
+                      class: "btn btn-primary" %>
+          <%= link_to "Close Account",
+                      user_account_path(@user.id, account.id),
+                      method: :delete,
+                      class: "btn btn-danger",
+                      data: { confirm: "Are you sure?" } %>
+        </td>
+      </tr>
+    <% end %>
+
+  <%-# Table for user -%>
+
+  <% else %>
+    <tr>
+      <th>Store</th>
+      <th>Value</th>
+      <th></th>
+      <th></th>
+    </tr>
+    <% @accounts.each do |account| %>
+      <% ptrans = PointsTransaction.find_by(account_id: account.id, approved: false) %>
+      <tr>
+        <td>
+          <strong><%= link_to account.store.name,
+                              user_url(account.store_id) %></strong>
+        </td>
+        <td><%= account.value %></td>
+        <td>
+          <% if ptrans %>
+            <button type="button" class="btn btn-primary" disabled="disabled">Awaiting Approval</button>
+          <% else %>
+            <%= link_to "Request a point",
+                        user_account_points_transactions_path(account.user.id,
+                                                              account.id),
+                        class: "btn btn-primary",
+                        :method => :post %>
+          <% end %>
+        </td>
+        <td>
+          <%= link_to "View Account",
+                      user_account_path(@user.id, account.id),
+                      class: "btn btn-primary" %>
+          <%= link_to "Close Account",
+                      user_account_path(@user.id, account.id),
+                      method: :delete,
+                      class: "btn btn-danger",
+                      data: { confirm: "Are you sure?" } %>
+        </td>
+    <% end %>
+  <% end %>
+</table>

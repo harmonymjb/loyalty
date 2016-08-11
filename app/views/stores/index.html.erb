@@ -1,0 +1,30 @@
+<h1>Stores</h1>
+<table class="table table-hover">
+  <tr>
+    <th>Store Name</th>
+    <% if user_signed_in? && !current_user.admin %>
+      <th>Account</th>
+    <% end %>
+  </tr>
+  <% @stores.each do |store| %>
+    <tr>
+      <td><strong><%= link_to store.name, store_path(store) %></strong></td>
+      <% if user_signed_in? && !current_user.store %>
+        <td>
+          <% if account = @accounts.find_by(user_id: current_user.id, store_id: store.id) %>
+            <%= link_to "View Account",
+                        user_account_url(current_user.id, account.id),
+                        class: "btn btn-primary" %>
+          <% else %>
+            <%= link_to "Open Account!",
+                        user_accounts_path(current_user.id,
+                                            :store_id => store.id,
+                                            :user_id => current_user.id),
+                        class: "btn btn-default",
+                        :method => :post %>
+          <% end %>
+        </td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>

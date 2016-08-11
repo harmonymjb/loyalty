@@ -1,0 +1,7 @@
+- Get the store view to approve requests set up
+
+- Get a rewards model set up (resource under store)
+  - Display store's rewards to users with accounts at store on store page,
+    allow redeeming points.
+
+- Allow stores to find users by some codified something (ph #?, email?, )

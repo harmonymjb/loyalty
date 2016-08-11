@@ -1,0 +1,11 @@
+<h1>Users</h1>
+<table class="table table-hover">
+  <tr>
+    <th>User's Name</th>
+  </tr>
+  <% @users.each do |user| %>
+    <tr>
+      <td><strong><%= link_to user.username, user_path(user) %></strong></td>
+    </tr>
+  <% end %>
+</table>
