@@ -22,12 +22,12 @@
           <% if ptrans %>
             <%= link_to "Approve Request",
                         user_account_points_transaction_path(current_user.id,
-                                                            account.id,
-                                                            ptrans.id),
+                                                             account.id,
+                                                             ptrans.id),
                         class: "btn btn-success",
                         :method => :patch %>
           <% else %>
-            <%= link_to "Give a point",
+            <%= link_to "Give point(s)",
                         user_account_points_transactions_path(account.user.id,
                                                               account.id),
                         class: "btn btn-primary",
@@ -66,9 +66,11 @@
         <td><%= account.value %></td>
         <td>
           <% if ptrans %>
-            <button type="button" class="btn btn-primary" disabled="disabled">Awaiting Approval</button>
+            <button type="button" class="btn btn-primary" disabled="disabled">
+              Awaiting Approval
+            </button>
           <% else %>
-            <%= link_to "Request a point",
+            <%= link_to "Request point(s)",
                         user_account_points_transactions_path(account.user.id,
                                                               account.id),
                         class: "btn btn-primary",

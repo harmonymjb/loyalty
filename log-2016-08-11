@@ -1,0 +1,83 @@
+Things I've learned:
+  Set up a home server development environment.
+    Ruby
+    Rails
+    PPTP VPN
+    tmux (tmuxinator)
+    vim
+    MariaDB (mysql)
+  Built snake in Ruby
+    Ruby syntax and data types
+    Ruby Koans
+  The Ruby on Rails stack
+    Ruby on Rails is powerful and comes with a lot of context
+    The relationship of MVC applications
+      Under the hood is still mysterious
+    Controllers:
+      The information queryed being made available in the views
+      The controller is reposible for rendering the view to the user
+    Views (.html.erb)
+      HTML syntax
+      ERB delimiting
+    css (.scss)
+      css syntax
+      Bootstrap
+        Good to be able to see the underlying css
+    Model, Migrations, References
+      Relational Databases have many applications
+    UI, UX and navigation
+      I'm not a designer
+
+Things I should learn
+  Testing
+    Syntax is easy, implementation can be tricky.
+    Where should I get started?
+      Rspec model specs
+      http://everydayrails.com/2012/03/19/testing-series-rspec-models-factory-girl.html
+  Javascript
+    A lot of javascript is already being done under the hood
+    What can I use JS for?
+      I would like to be able to have a page to load information as it changes in the DB wihtout reloading.
+  Postgres
+    I've only expereinced working with Mysql and sqlite.
+      How different are these systems to use from a Rails developer perspective
+
+A brief overview of Loyalty:
+
+  Loyalty is a MVC RoR application for many users and stores to maintain a loyalty points system.
+  Users can register for the site, and then open accounts with any participating stores.
+  Stores are administered by users, and any user can choose to be an administrator of a store.
+  Once users are registered, they can request points for their account.
+  Stores can then grant requests to add value to the user's account.
+  Stores can also grant points un-requested.
+
+  Features to be added:
+    Allow stores to deduct points from user accounts for rewards.
+    Create a rewards model that stores can create. Different rewards can have different costs, quantities, and descriptions.
+    Create an administration dashboard where vital statistics can be viewed by store administrators.
+    Expand the Profile information of both stores and users.
+
+  Possible features:
+    A messaging system
+    Cross-store promotions and rewards
+    Friends system
+    Store ranking and reviews
+
+Start:
+  Working around others
+  Working towards goals
+  Working with deadlines
+  Regular code review
+  Viewing other developer's code
+  Participating in Slack more
+  Coding every day, even if just on a side project
+
+Stop:
+  Working on solo projects
+  Working on my own ideas
+  Working in distracting environments
+
+Continue:
+  Paricipating in Show & Tell
+  Reading books
+  Watching talks

@@ -20,7 +20,7 @@
   <% end %>
 
   <div class="form-group">
-    <%= f.label :password %> 
+    <%= f.label :password %>
     <%= f.password_field :password, autocomplete: "off", class: "form-control"  %>
     <% if @minimum_password_length %>
       <p class="help-block"><%= @minimum_password_length %> characters minimum <i>(leave blank if you don't wish to change it)</i></p>
@@ -33,7 +33,7 @@
   </div>
 
   <div class="form-group">
-    <%= f.label :current_password %> 
+    <%= f.label :current_password %>
     <%= f.password_field :current_password, autocomplete: "off", class: "form-control"  %>
     <p class="help-block"><i>(enter your current password to confirm your changes)</i></p>
   </div>
@@ -43,11 +43,13 @@
   </div>
 <% end %>
 
-<hr>
+<hr />
 
 <p><%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, class: "btn btn-danger", method: :delete %></p>
 
-<% unless Store.find_by_user_id(current_user.id) %>
-  <hr>
+<hr />
+<% if current_user.admin %>
+  <p><%= link_to "Edit Store Information", edit_store_path(current_user.store), class: "btn btn-default" %></p>
+<% else %>
   <p><%= link_to "Administer a Store with this account", new_store_path, class: "btn btn-default" %></p>
-<% end %>
+<% end %><br /><br />

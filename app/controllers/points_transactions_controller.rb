@@ -1,8 +1,9 @@
 class PointsTransactionsController < ApplicationController
   def create
+    value = Account.find(params[:account_id]).store.default_value
     # If you're signed in, and you're requesting for yourself
     if user_signed_in? && current_user.id == params[:user_id].to_i
-      @ptrans = PointsTransaction.new(value: 1, account_id: params[:account_id])
+      @ptrans = PointsTransaction.new(value: value, account_id: params[:account_id])
       @ptrans.save
       flash[:notice] = "Points Requested"
       redirect_to user_accounts_path(current_user.id)
@@ -14,11 +15,12 @@ class PointsTransactionsController < ApplicationController
         params[:id] = ptrans.id
         update
       else
-        @ptrans = PointsTransaction.new(value: 1, account_id: params[:account_id], approved: true)
+        @ptrans = PointsTransaction.new(value: value, account_id: params[:account_id], approved: true)
         @account = Account.find(params[:account_id])
         @account.value += @ptrans.value
         @ptrans.save
         @account.save
+        flash[:notice] = 'A point was given'
         redirect_to user_accounts_path(current_user.id)
       end
     end
@@ -34,6 +36,7 @@ class PointsTransactionsController < ApplicationController
           account.value += ptrans.value
           ptrans.save
           account.save
+          flash[:notice] = "A request was approved"
           redirect_to user_accounts_path(current_user.id)
         end
       end
