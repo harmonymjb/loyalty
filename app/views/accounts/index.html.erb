@@ -1,7 +1,7 @@
 <h1>Accounts</h1>
 <table class="table table-hover">
   <tr>
-    <% if @user.admin %>
+    <% if current_user.admin %>
       <th>User</th>
     <% else %>
       <th>Store</th>
@@ -16,7 +16,7 @@
     <% reward_ptrans = PointsTransaction.find_by(account_id: account.id, approved: false, trans_type: "debit") %>
     <tr>
       <td>
-        <% if @user.admin %>
+        <% if current_user.admin %>
           <strong><%= link_to account.user.username, user_url(account.user_id) %></strong>
         <% else %>
           <strong><%= link_to account.store.name, store_url(account.store_id) %></strong>
@@ -24,7 +24,7 @@
       </td>
       <td><%= account.value %></td>
       <td>
-        <% if @user.admin %>
+        <% if current_user.admin %>
           <% if ptrans %>
             <%= link_to "Approve Request", user_account_points_transaction_path(current_user.id, account.id, ptrans.id), class: "btn btn-success", :method => :patch %>
           <% else %>
@@ -45,8 +45,8 @@
         <%= link_to "Redeem Points", store_rewards_url(account.store_id), class: "btn btn-primary" %>
       </td>
       <td>
-        <%= link_to "View Account", user_account_path(@user.id, account.id), class: "btn btn-primary" %>
-        <%= link_to "Close Account", user_account_path(@user.id, account.id), method: :delete, class: "btn btn-danger", data: { confirm: "Are you sure?" } %>
+        <%= link_to "View Account", user_account_path(current_user.id, account.id), class: "btn btn-primary" %>
+        <%= link_to "Close Account", user_account_path(current_user.id, account.id), method: :delete, class: "btn btn-danger", data: { confirm: "Are you sure?" } %>
       </td>
     </tr>
   <% end %>

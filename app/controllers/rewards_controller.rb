@@ -11,6 +11,14 @@ class RewardsController < ApplicationController
   end
 
   def update
+    @reward = Reward.find(params[:id])
+    if @reward.update_attributes(reward_params)
+      flash[:notice] = "Reward Updated"
+      redirect_to store_rewards_path(current_user.store)
+    else
+      flash[:alert] = "Failed to update reward"
+      render 'edit'
+    end
   end
 
   def index
@@ -23,7 +31,7 @@ class RewardsController < ApplicationController
   end
 
   def edit
-    if user_signed_in? && user.admin
+    if user_signed_in? && current_user.admin
       @reward = Reward.find(params[:id])
     end
   end
