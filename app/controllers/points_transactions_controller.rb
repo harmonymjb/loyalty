@@ -27,7 +27,7 @@ class PointsTransactionsController < ApplicationController
           if ptrans.save
             flash[:notice] = "Points Requested"
           else
-            flash[:warning] = "Points request failed"
+            flash[:alert] = "Points request failed"
           end
           redirect_to user_accounts_path(current_user.id)
         end

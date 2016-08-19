@@ -18,7 +18,7 @@ class AccountsController < ApplicationController
         flash[:notice] = "Account successfully created"
         redirect_to user_accounts_url(current_user)
       rescue ActiveRecord::RecordNotUnique => e
-        flash[:notice] = "Account already exists"
+        flash[:alert] = "Account already exists"
         redirect_to user_accounts_url(current_user)
       end
     else
