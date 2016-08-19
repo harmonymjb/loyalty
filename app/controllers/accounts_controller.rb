@@ -3,10 +3,12 @@ class AccountsController < ApplicationController
   def index
     if !current_user
       redirect_to stores_path
-    elsif current_user.admin
-      @accounts = current_user.store.accounts
     else
-      @accounts = current_user.accounts
+      if current_user.admin
+        @accounts = current_user.store.accounts
+      else
+        @accounts = current_user.accounts
+      end
     end
   end
 

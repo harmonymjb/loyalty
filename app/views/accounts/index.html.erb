@@ -14,6 +14,7 @@
   <% @accounts.each do |account| %>
     <% ptrans = PointsTransaction.find_by(account_id: account.id, approved: false, trans_type: "credit") %>
     <% reward_ptrans = PointsTransaction.find_by(account_id: account.id, approved: false, trans_type: "debit") %>
+    <% @store = account.store %>
     <tr>
       <td>
         <% if current_user.admin %>
@@ -31,7 +32,7 @@
                         class: "btn btn-success",
                         :method => :patch %>
           <% else %>
-            <%= link_to "Give point(s)",
+            <%= link_to "Give #{@store.default_value} point(s)",
                         user_account_points_transactions_path(current_user.id, account.id, :trans_type => "credit"),
                         class: "btn btn-primary",
                         :method => :post %>
@@ -48,7 +49,7 @@
               Awaiting Approval
             </button>
           <% else %>
-            <%= link_to "Request point(s)",
+            <%= link_to "Request #{@store.default_value} point(s)",
                 user_account_points_transactions_path(account.user.id, account.id, :trans_type => "credit"),
                 class: "btn btn-primary",
                 :method => :post %>
