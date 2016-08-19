@@ -18,14 +18,14 @@ class PointsTransactionsController < ApplicationController
             @account.value += ptrans.value
             ptrans.save
             @account.save
-            flash[:notice] = 'A point was given'
+            flash[:notice] = "#{ptrans.value} point(s) were given"
             redirect_to user_accounts_path(current_user.id)
           end
         else
           value = @account.store.default_value
           ptrans = PointsTransaction.new(value: value, account_id: params[:account_id])
           if ptrans.save
-            flash[:notice] = "Points Requested"
+            flash[:notice] = "#{value} Point(s) Requested"
           else
             flash[:alert] = "Points request failed"
           end
@@ -46,18 +46,19 @@ class PointsTransactionsController < ApplicationController
             ptrans = PointsTransaction.new(value: value, account_id: params[:account_id], trans_type: "debit", approved: true)
             account.value += value
             if ptrans.save && account.save
-              flash[:notice] = "Reward redeemed"
+              flash[:notice] = "Reward redeemed for #{-value} point(s)"
             else
               flash[:alert] = "Redemption request failed"
             end
             redirect_to user_accounts_path(current_user.id)
           end
         elsif @account.value >= reward.value
-          ptrans = PointsTransaction.new(value: -1*reward.value,
+          value = -reward.value
+          ptrans = PointsTransaction.new(value: value,
                                          account_id: params[:account_id],
                                          trans_type: "debit")
           ptrans = ptrans.save
-          flash[:notice] = "Reward Requested"
+          flash[:notice] = "Reward Requested for #{-value} point(s)"
           redirect_to user_accounts_path(current_user.id)
         end
       end
@@ -74,7 +75,7 @@ class PointsTransactionsController < ApplicationController
         @account.value += ptrans.value
         ptrans.save
         @account.save
-        flash[:notice] = "A request was approved"
+        flash[:notice] = "A request for #{ptrans.value} point(s) was approved"
         redirect_to user_accounts_path(current_user.id)
       end
     end
