@@ -24,8 +24,11 @@ class PointsTransactionsController < ApplicationController
         else
           value = @account.store.default_value
           ptrans = PointsTransaction.new(value: value, account_id: params[:account_id])
-          ptrans.save
-          flash[:notice] = "Points Requested"
+          if ptrans.save
+            flash[:notice] = "Points Requested"
+          else
+            flash[:warning] = "Points request failed"
+          end
           redirect_to user_accounts_path(current_user.id)
         end
       elsif params[:trans_type] == "debit"
