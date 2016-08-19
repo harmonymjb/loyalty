@@ -106,7 +106,9 @@ class PointsTransactionsController < ApplicationController
   end
 
   def points_transaction_params
-    params.require(:points_transaction).permit(:value, :trans_type)
+    if params[:points_transaction]
+      params.require(:points_transaction).permit(:value, :trans_type)
+    end
   end
 
 end

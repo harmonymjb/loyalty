@@ -27,7 +27,7 @@
       <td>
         <% if current_user.admin %>
           <% if ptrans %>
-            <%= link_to "Approve Request",
+            <%= link_to "Approve Request for #{ptrans.value} point(s)",
                         user_account_points_transaction_path(current_user.id, account.id, ptrans.id),
                         class: "btn btn-success",
                         :method => :patch %>
