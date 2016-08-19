@@ -2,7 +2,7 @@
   <h2>New Store</h2>
 </div>
 
-<%= form_for([@user, @user.build_store]) do |f| %>
+<%= form_for([current_user, current_user.build_store]) do |f| %>
 
   <div class="form-group">
     <%= f.label :name %><br />

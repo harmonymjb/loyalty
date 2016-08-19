@@ -7,10 +7,11 @@ class RewardsController < ApplicationController
   def create
     if user_is_store_admin?(params)
       if @store.rewards.create(reward_params)
-        redirect_to store_path(current_user.store.id)
+        redirect_to user_accounts_path(current_user)
       else
         flash[:alert] = "Failed to save reward"
         redirect_to new_store_reward_path(@store)
+      end
     else
       redirect_to root_path
     end
@@ -39,6 +40,15 @@ class RewardsController < ApplicationController
   def edit
     if user_is_store_admin?(params)
       @reward = Reward.find(params[:id])
+    end
+  end
+
+  def destroy
+    if user_is_store_admin?(params)
+      Reward.find(params[:id]).destroy
+      redirect_to store_rewards_path(@store)
+    else
+      redirect_to root_path
     end
   end
 

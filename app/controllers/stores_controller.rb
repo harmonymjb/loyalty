@@ -5,20 +5,24 @@ class StoresController < ApplicationController
   end
 
   def new
-    @user = current_user
+    if current_user.admin
+      flash[:notice] = "You are already administrating a store"
+      redirect_to user_accounts_path(current_user)
+    end
   end
 
   def update
-    @user = current_user
-    if @user.store.update_attributes(store_params)
+    redirect_to root_path unless user_is_store_admin?(params)
+    if current_user.store.update_attributes(store_params)
       flash[:notice] = "Store Updated"
-      redirect_to user_accounts_path(@user)
+      redirect_to user_accounts_path(current_user)
     else
       render 'edit'
     end
   end
 
   def create
+    redirect_to root_path if current_user.admin
     @user = current_user
     @user.create_store(store_params)
     @user.admin = true
@@ -31,11 +35,16 @@ class StoresController < ApplicationController
   end
 
   def edit
-    @user = current_user
+    redirect_to root_path unless user_is_store_admin?(params)
   end
 
   private
   def store_params
     params.require(:store).permit(:name, :description, :default_value)
+  end
+
+  def user_is_store_admin?(params)
+    @store = current_user.store
+    @store.id == params[:id].to_i
   end
 end

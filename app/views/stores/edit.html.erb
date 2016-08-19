@@ -2,11 +2,11 @@
   <h2>Edit Store</h2>
 </div>
 
-<%= link_to "Add a new reward", new_store_reward_path(@user.store), class: "btn btn-primary" %>
+<%= link_to "Add a new reward", new_store_reward_path(current_user.store), class: "btn btn-primary" %>
 
 <hr />
 
-<%= form_for(@user.store) do |f| %>
+<%= form_for(current_user.store) do |f| %>
 
   <div class="form-group">
     <%= f.label :name %><br />
