@@ -28,7 +28,7 @@
           <% if ptrans %>
             <%= link_to "Approve Request", user_account_points_transaction_path(current_user.id, account.id, ptrans.id), class: "btn btn-success", :method => :patch %>
           <% else %>
-            <%= link_to "Give point(s)", user_account_points_transactions_path(account.user.id, account.id, :trans_type => "credit"), class: "btn btn-primary", :method => :post %>
+            <%= link_to "Give point(s)", user_account_points_transactions_path(current_user.id, account.id, :trans_type => "credit"), class: "btn btn-primary", :method => :post %>
           <% end %>
           <% if reward_ptrans %>
             <%= link_to "Approve Reward", user_account_points_transaction_path(current_user.id, account.id, reward_ptrans.id), class: "btn btn-success", :method => :patch %>

@@ -28,7 +28,6 @@ class AccountsController < ApplicationController
 
   def destroy
     if user_representing_self?(params) && user_on_account?(params)
-      @account = Account.find(params[:id])
       @account.destroy
       redirect_to user_accounts_path(current_user.id)
     else
@@ -38,7 +37,6 @@ class AccountsController < ApplicationController
 
   def show
     if user_representing_self?(params) && user_on_account?(params)
-      @account = Account.find(params[:id])
       @ptranss = @account.points_transactions
     else
       redirect_to root_path
@@ -52,11 +50,11 @@ class AccountsController < ApplicationController
   end
 
   def user_on_account?(params)
-    account = Account.find(params[:id])
+    @account = Account.find(params[:id])
     if current_user.admin
-      current_user.store.id == account.store_id
+      current_user.store.id == @account.store_id
     else
-      current_user.id == account.user_id
+      current_user.id == @account.user_id
     end
   end
 end
