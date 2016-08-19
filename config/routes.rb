@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => { registrations: 'users/registrations' }
 
   resources :stores do
+    resources :rewards
     resources :points_transactions
   end
 
@@ -13,5 +14,5 @@ Rails.application.routes.draw do
     end
   end
 
-  root to: "users#index"
+  root to: "accounts#index"
 end

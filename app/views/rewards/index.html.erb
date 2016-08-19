@@ -1,0 +1,31 @@
+<h2>Rewards</h2>
+
+<table class="table table-hover">
+  <tr>
+    <th>Name</th>
+    <th>Desreiption</th>
+    <th>Value</th>
+    <th></th>
+  </tr>
+<% @rewards.each do |reward| %>
+  <tr>
+    <td><%= reward.name %></td>
+    <td><%= reward.description %></td>
+    <td><%= reward.value %></td>
+    <td>
+      <% if current_user.admin %>
+        <%= link_to "Edit this reward", edit_store_reward_path(current_user.store, reward), class: "btn btn-primary" %>
+      <% else %>
+        <% if PointsTransaction.find_by(account_id: @account.id, approved: false, trans_type: "debit") %>
+          <button type="button" class="btn btn-primary" disabled="disabled">Awaiting Approval</button>
+        <% elsif @account.value >= reward.value %>
+          <%= link_to "Redeem points for this reward", user_account_points_transactions_path(current_user.id, @account.id, :trans_type => "debit", :reward_id => reward.id), class: "btn btn-primary", :method => :post %>
+        <% else %>
+          <button type="button" class="btn btn-primary" disabled="disabled">Not enough points</button>
+        <% end %>
+      <% end %>
+    </td>
+  </tr>
+<% end %>
+
+</table>
