@@ -40,6 +40,17 @@ class PointsTransactionsController < ApplicationController
           if ptrans
             params[:id] = ptrans.id
             update
+          else
+            account = Account.find(params[:account_id])
+            value = -reward.value
+            ptrans = PointsTransaction.new(value: value, account_id: params[:account_id], trans_type: "debit", approved: true)
+            account.value += value
+            if ptrans.save && account.save
+              flash[:notice] = "Reward redeemed"
+            else
+              flash[:alert] = "Redemption request failed"
+            end
+            redirect_to user_accounts_path(current_user.id)
           end
         elsif @account.value >= reward.value
           ptrans = PointsTransaction.new(value: -1*reward.value,

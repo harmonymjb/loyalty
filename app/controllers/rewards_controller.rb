@@ -31,8 +31,11 @@ class RewardsController < ApplicationController
   def index
     @store = Store.find(params[:store_id])
     @rewards = @store.rewards
-    @user = current_user
-    if !@current_user.admin
+    if params[:user_id]
+      @user = User.find(params[:user_id])
+      @account = Account.find_by(user_id: @user.id, store_id: @store.id)
+    end
+    if !current_user.admin
       @account = Account.find_by(user_id: current_user.id, store_id: @store.id)
     end
   end

@@ -26,27 +26,55 @@
       <td>
         <% if current_user.admin %>
           <% if ptrans %>
-            <%= link_to "Approve Request", user_account_points_transaction_path(current_user.id, account.id, ptrans.id), class: "btn btn-success", :method => :patch %>
+            <%= link_to "Approve Request",
+                        user_account_points_transaction_path(current_user.id, account.id, ptrans.id),
+                        class: "btn btn-success",
+                        :method => :patch %>
           <% else %>
-            <%= link_to "Give point(s)", user_account_points_transactions_path(current_user.id, account.id, :trans_type => "credit"), class: "btn btn-primary", :method => :post %>
+            <%= link_to "Give point(s)",
+                        user_account_points_transactions_path(current_user.id, account.id, :trans_type => "credit"),
+                        class: "btn btn-primary",
+                        :method => :post %>
           <% end %>
           <% if reward_ptrans %>
-            <%= link_to "Approve Reward", user_account_points_transaction_path(current_user.id, account.id, reward_ptrans.id), class: "btn btn-success", :method => :patch %>
+            <%= link_to "Approve Reward",
+                user_account_points_transaction_path(current_user.id, account.id, reward_ptrans.id),
+                class: "btn btn-success",
+                :method => :patch %>
           <% end %>
         <% else %>
           <% if ptrans %>
-            <button type="button" class="btn btn-primary" disabled="disabled">Awaiting Approval</button>
+            <button type="button" class="btn btn-primary" disabled="disabled">
+              Awaiting Approval
+            </button>
           <% else %>
-            <%= link_to "Request point(s)", user_account_points_transactions_path(account.user.id, account.id, :trans_type => "credit"), class: "btn btn-primary", :method => :post %>
+            <%= link_to "Request point(s)",
+                user_account_points_transactions_path(account.user.id, account.id, :trans_type => "credit"),
+                class: "btn btn-primary",
+                :method => :post %>
           <% end %>
         <% end %>
       </td>
       <td>
-        <%= link_to "Redeem Points", store_rewards_url(account.store_id), class: "btn btn-primary" %>
+        <% if current_user.admin %>
+          <%= link_to "Redeem Points for user",
+                      store_rewards_url(account.store_id, user_id: account.user_id),
+                      class: "btn btn-primary" %>
+        <% else %>
+          <%= link_to "Redeem Points",
+                      store_rewards_url(account.store_id),
+                      class: "btn btn-primary" %>
+        <% end %>
       </td>
       <td>
-        <%= link_to "View Account", user_account_path(current_user.id, account.id), class: "btn btn-primary" %>
-        <%= link_to "Close Account", user_account_path(current_user.id, account.id), method: :delete, class: "btn btn-danger", data: { confirm: "Are you sure?" } %>
+        <%= link_to "View Account",
+                    user_account_path(current_user.id, account.id),
+                    class: "btn btn-primary" %>
+        <%= link_to "Close Account",
+                    user_account_path(current_user.id, account.id),
+                    method: :delete,
+                    class: "btn btn-danger",
+                    data: { confirm: "Are you sure?" } %>
       </td>
     </tr>
   <% end %>
