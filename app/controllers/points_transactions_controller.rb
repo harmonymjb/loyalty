@@ -1,8 +1,17 @@
 class PointsTransactionsController < ApplicationController
 
+  def new
+    @account = Account.find(params[:account_id])
+  end
+
   def create
+    if points_transaction_params
+      value = points_transaction_params[:value].to_i
+      params[:trans_type] = points_transaction_params[:trans_type]
+    end
     if user_representing_self?(params) && user_on_account?(params)
       if params[:trans_type] == "credit"
+        value ||= @account.store.default_value
         if current_user.admin
           ptrans = PointsTransaction.find_by(account_id: params[:account_id],
                                              approved: false,
@@ -12,7 +21,7 @@ class PointsTransactionsController < ApplicationController
             update
           else
             # Wrap this in a transaction
-            ptrans = PointsTransaction.new(value: current_user.store.default_value,
+            ptrans = PointsTransaction.new(value: value,
                                            account_id: params[:account_id],
                                            approved: true)
             @account.value += ptrans.value
@@ -22,7 +31,6 @@ class PointsTransactionsController < ApplicationController
             redirect_to user_accounts_path(current_user.id)
           end
         else
-          value = @account.store.default_value
           ptrans = PointsTransaction.new(value: value, account_id: params[:account_id])
           if ptrans.save
             flash[:notice] = "#{value} Point(s) Requested"
@@ -32,7 +40,8 @@ class PointsTransactionsController < ApplicationController
           redirect_to user_accounts_path(current_user.id)
         end
       elsif params[:trans_type] == "debit"
-        reward = Reward.find(params[:reward_id])
+        p value
+        value ||= Reward.find(params[:reward_id]).value
         if current_user.admin
           ptrans = PointsTransaction.find_by(account_id: params[:account_id],
                                              approved: false,
@@ -42,7 +51,7 @@ class PointsTransactionsController < ApplicationController
             update
           else
             account = Account.find(params[:account_id])
-            value = -reward.value
+            value = -value
             ptrans = PointsTransaction.new(value: value, account_id: params[:account_id], trans_type: "debit", approved: true)
             account.value += value
             if ptrans.save && account.save
@@ -52,8 +61,8 @@ class PointsTransactionsController < ApplicationController
             end
             redirect_to user_accounts_path(current_user.id)
           end
-        elsif @account.value >= reward.value
-          value = -reward.value
+        elsif @account.value >= value
+          value = -value
           ptrans = PointsTransaction.new(value: value,
                                          account_id: params[:account_id],
                                          trans_type: "debit")
@@ -95,4 +104,9 @@ class PointsTransactionsController < ApplicationController
       current_user.id == @account.user_id
     end
   end
+
+  def points_transaction_params
+    params.require(:points_transaction).permit(:value, :trans_type)
+  end
+
 end

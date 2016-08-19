@@ -57,6 +57,11 @@
         <% end %>
       </td>
       <td>
+        <%= link_to "Make a custom request",
+                    new_user_account_points_transaction_path(account.user.id, account.id),
+                    class: "btn btn-default" %>
+      </td>
+      <td>
         <% if current_user.admin %>
           <%= link_to "Redeem Points for user",
                       store_rewards_url(account.store_id, user_id: account.user_id),
