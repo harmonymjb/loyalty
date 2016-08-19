@@ -9,3 +9,38 @@ Store: <%= @account.store.name %><br />
 Current Value: <%= @account.value %></p>
 
 <hr />
+<% if !@pending.empty? %>
+  <h2>Pending Transactions</h2>
+  <table class="table table-hover">
+    <tr>
+      <th>Value</th>
+      <th>Date Requested</th>
+      <th>Debit/Credit</th>
+    </tr>
+    <% @pending.each do |trans| %>
+      <tr>
+        <td><%= trans.value %></td>
+        <td><%= trans.created_at %></td>
+        <td><%= trans.trans_type %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
+
+<% if !@approved.empty? %>
+  <h2>Transaction History</h2>
+  <table class="table table-hover">
+    <tr>
+      <th>Value</th>
+      <th>Date Approved</th>
+      <th>Debit/Credit</th>
+    </tr>
+    <% @approved.each do |trans| %>
+      <tr>
+        <td><%= trans.value %></td>
+        <td><%= trans.updated_at %></td>
+        <td><%= trans.trans_type %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

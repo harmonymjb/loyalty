@@ -37,7 +37,9 @@ class AccountsController < ApplicationController
 
   def show
     if user_representing_self?(params) && user_on_account?(params)
-      @ptranss = @account.points_transactions
+      ptranss = @account.points_transactions
+      @pending = ptranss.select {|trans| trans.approved == false}.reverse
+      @approved = ptranss.select {|trans| trans.approved == true}.reverse
     else
       redirect_to root_path
     end
